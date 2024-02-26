@@ -1,2 +1,3 @@
-spec: .gear/python3-socli.spec
+spec: .gear/socli.spec
 tar: .
+copy: .gear/pyproject_deps.json

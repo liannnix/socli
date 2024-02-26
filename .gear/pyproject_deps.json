@@ -1,0 +1,30 @@
+{
+  "sources": {
+    "metadata": {
+      "deps": [
+        "BeautifulSoup4",
+        "Py-stackExchange",
+        "argcomplete",
+        "colorama",
+        "requests",
+        "sentry-sdk",
+        "urwid"
+      ],
+      "srctype": "metadata"
+    },
+    "pep517": {
+      "deps": [
+        "pytest-runner",
+        "wheel"
+      ],
+      "srctype": "pep517"
+    },
+    "pep518": {
+      "deps": [
+        "setuptools",
+        "wheel"
+      ],
+      "srctype": "pep518"
+    }
+  }
+}

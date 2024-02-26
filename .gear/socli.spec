@@ -1,24 +1,24 @@
 %define _unpackaged_files_terminate_build 1
 %define pypi_name socli
-#%define mod_name $module
 
 %def_without check
 
-Name:    python3-module-%pypi_name
+Name:    %pypi_name
 Version: 7.3
 Release: alt1
 
-Summary: $summary
-License: $license
-Group:   Development/Python3
-URL:     $url
-#VCS:     $url
+Summary: Stack overflow command line interface
+License: BSD-3-Clause
+Group:   Other
+URL:     https://pypi.org/project/%pypi_name
+VCS:     https://github.com/gautamkrishnar/%pypi_name
 
 BuildRequires(pre): rpm-build-pyproject
 # Sphinx documentation
 #BuildRequires: python3-module-sphinx
 
 %pyproject_runtimedeps_metadata
+%add_pyproject_deps_build_filter pytest-runner
 %pyproject_builddeps_build
 
 %if_with check
@@ -34,23 +34,23 @@ BuildRequires(pre): rpm-build-pyproject
 
 BuildArch: noarch
 
-Source: %name-%version.tar
-#Source1: %pyproject_deps_config_name
+Source:  %name-%version.tar
+Source1: %pyproject_deps_config_name
 
 #Patch: %pypi_name-%version-alt.patch
 
 %description
-$description
+Stack Overflow command line written in python. Using SoCLI you can
+search and browse Stack Overflow without leaving the terminal.
 
-#%package docs
-#Summary: Documentation for %pypi_name
-#Group: Development/Documentation
-#BuildArch: noarch
-#
-#%description docs
-#$description
-#
-#This package contains documentation for %pypi_name.
+%package -n python3-module-%pypi_name
+Summary: Python3 module for Stack overflow command line interface
+Group:   Development/Python3
+BuildArch: noarch
+
+%description -n python3-module-%pypi_name
+Python3 module for Stack Overflow command line written in python. Using SoCLI you can
+search and browse Stack Overflow without leaving the terminal.
 
 %prep
 %setup -n %name-%version
@@ -72,6 +72,8 @@ $description
 
 %install
 %pyproject_install
+mkdir -p %buildroot%_man1dir
+mv %buildroot/usr/man/man1/socli.1 %buildroot%_man1dir/%pypi_name.1
 
 %check
 #%%tox_create_default_config
@@ -79,15 +81,14 @@ $description
 #%%pyproject_run_pytest -ra tests
 
 %files
-%doc *.md
+%_bindir/%pypi_name
+%_man1dir/%pypi_name.*
+
+%files -n python3-module-%pypi_name
+%doc *.md *.rst
 %python3_sitelibdir/%pypi_name/
-#%%python3_sitelibdir/%mod_name/
 %python3_sitelibdir/%{pyproject_distinfo %pypi_name}
 
-#%%files docs
-#%%doc docs/_build/html/*
-#%%doc examples
-
 %changelog
-* Wed Jan 17 2024 Aleksey Saprunov <sav@altlinux.org> 7.3-alt1
+* Mon Feb 26 2024 Andrey Limachko <liannnix@altlinux.org> 7.3-alt1
 - initial build
